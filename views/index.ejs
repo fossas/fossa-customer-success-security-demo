@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Team status board</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; color: #222; }
+    h2 { margin-bottom: .25rem; }
+    li { margin: .2rem 0; }
+    .muted { color: #777; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <h1>Team status board</h1>
+  <% Object.keys(byRole).forEach(function (role) { %>
+    <h2><%= role %></h2>
+    <ul>
+      <% byRole[role].forEach(function (m) { %>
+        <li><strong><%= m.name %></strong>: <%= m.status %></li>
+      <% }) %>
+    </ul>
+  <% }) %>
+  <p class="muted">Updated <%= updated %></p>
+</body>
+</html>

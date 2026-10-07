@@ -1,0 +1,24 @@
+{
+  "name": "fossa-security-demo",
+  "version": "1.0.0",
+  "description": "A small Express app with intentionally vulnerable dependencies, for learning FOSSA's security features.",
+  "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "build": "node scripts/build.js",
+    "test": "node --test test/"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "axios": "0.21.1",
+    "ejs": "3.1.6",
+    "express": "4.17.1",
+    "lodash": "4.17.20",
+    "minimist": "1.2.5",
+    "moment": "2.29.1",
+    "node-fetch": "2.6.0"
+  }
+}

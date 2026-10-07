@@ -1,0 +1,41 @@
+name: FOSSA security gate
+
+# Disabled until you add the FOSSA_API_KEY secret (see README, Lab 8).
+# To enable: delete the `if: false` line under `jobs.fossa`.
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  fossa:
+    if: true
+    runs-on: ubuntu-latest
+    env:
+      FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build and test
+        run: npm ci && npm run build && npm test
+
+      - name: Install FOSSA CLI
+        run: |
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash
+
+      - name: Scan dependencies
+        run: fossa analyze
+
+      # On main: fail if the latest scan has any issues under your policies.
+      - name: Gate (main)
+        if: github.event_name == 'push'
+        run: fossa test
+
+      # On pull requests: fail only on issues the PR introduces.
+      - name: Gate (pull request)
+        if: github.event_name == 'pull_request'
+        run: fossa test --diff ${{ github.event.pull_request.base.sha }}

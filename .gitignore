@@ -1,0 +1,5 @@
+node_modules/
+fossa.debug.json.gz
+sbom*.json
+*.tar
+.env
